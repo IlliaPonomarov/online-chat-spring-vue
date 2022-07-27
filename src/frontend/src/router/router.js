@@ -1,6 +1,7 @@
 import Main from "@/pages/Main";
 import {createRouter, createWebHistory} from "vue-router/dist/vue-router";
 import WebSocketGreetings from "@/components/WebSocketGreetings";
+import Login from "@/pages/Login";
 
 const routes = [
     {
@@ -13,6 +14,10 @@ const routes = [
         component: WebSocketGreetings
     },
 
+    {
+        path: '/login',
+        component: Login
+    },
 
 ];
 
