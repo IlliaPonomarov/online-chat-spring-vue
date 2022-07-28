@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.ponomarov.Illia.chat.dto.PersonDTO;
 import ua.ponomarov.Illia.chat.model.Person;
+import ua.ponomarov.Illia.chat.security.JWTUtil;
 import ua.ponomarov.Illia.chat.services.PeopleDetailService;
 import ua.ponomarov.Illia.chat.services.RegistrationService;
 import ua.ponomarov.Illia.chat.utils.PersonValidator;
@@ -22,13 +23,15 @@ public class AuthorizationController {
     private final ModelMapper modelMapper;
     private final PeopleDetailService peopleDetailService;
     private final PersonValidator personValidator;
+    private final JWTUtil jwtUtil;
     private final RegistrationService registrationService;
 
     @Autowired
-    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService, PersonValidator personValidator, RegistrationService registrationService) {
+    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService, PersonValidator personValidator, JWTUtil jwtUtil, RegistrationService registrationService) {
         this.modelMapper = modelMapper;
         this.peopleDetailService = peopleDetailService;
         this.personValidator = personValidator;
+        this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
     }
 
@@ -45,7 +48,7 @@ public class AuthorizationController {
 
         registrationService.register(person);
 
-        String token = null;
+        String token = jwtUtil.generateToken(person.getUsername());
 
 
         return Map.of("jwt-token", token);
