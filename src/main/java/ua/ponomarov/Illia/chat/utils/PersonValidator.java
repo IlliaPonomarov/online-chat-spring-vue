@@ -2,12 +2,14 @@ package ua.ponomarov.Illia.chat.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ua.ponomarov.Illia.chat.model.Person;
 
 import ua.ponomarov.Illia.chat.services.PersonService;
 
+@Component
 public class PersonValidator implements Validator {
 
     private final PersonService personService;

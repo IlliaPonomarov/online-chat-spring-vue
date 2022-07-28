@@ -3,13 +3,15 @@ package ua.ponomarov.Illia.chat.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import ua.ponomarov.Illia.chat.dto.PersonDTO;
 import ua.ponomarov.Illia.chat.model.Person;
 import ua.ponomarov.Illia.chat.services.PeopleDetailService;
+import ua.ponomarov.Illia.chat.services.RegistrationService;
+import ua.ponomarov.Illia.chat.utils.PersonValidator;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -19,16 +21,34 @@ public class AuthorizationController {
 
     private final ModelMapper modelMapper;
     private final PeopleDetailService peopleDetailService;
+    private final PersonValidator personValidator;
+    private final RegistrationService registrationService;
 
     @Autowired
-    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService) {
+    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService, PersonValidator personValidator, RegistrationService registrationService) {
         this.modelMapper = modelMapper;
         this.peopleDetailService = peopleDetailService;
+        this.personValidator = personValidator;
+        this.registrationService = registrationService;
     }
 
-    @GetMapping("/user")
-    public Map<String, String> getPersonUsername(){
+    @PostMapping("/registration")
+    public Map<String, String> registration(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
 
+        Person person = convertToPerson(personDTO);
+        personValidator.validate(person, bindingResult);
+
+        // finish writing exception handler
+        if (bindingResult.hasErrors())
+            return Map.of("message", "error");
+
+
+        registrationService.register(person);
+
+        String token = null;
+
+
+        return Map.of("jwt-token", token);
     }
 
 
