@@ -2,9 +2,13 @@ package ua.ponomarov.Illia.chat.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ua.ponomarov.Illia.chat.dto.AuthenticationDTO;
 import ua.ponomarov.Illia.chat.dto.PersonDTO;
 import ua.ponomarov.Illia.chat.model.Person;
 import ua.ponomarov.Illia.chat.security.JWTUtil;
@@ -25,14 +29,16 @@ public class AuthorizationController {
     private final PersonValidator personValidator;
     private final JWTUtil jwtUtil;
     private final RegistrationService registrationService;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService, PersonValidator personValidator, JWTUtil jwtUtil, RegistrationService registrationService) {
+    public AuthorizationController(ModelMapper modelMapper, PeopleDetailService peopleDetailService, PersonValidator personValidator, JWTUtil jwtUtil, RegistrationService registrationService, AuthenticationManager authenticationManager) {
         this.modelMapper = modelMapper;
         this.peopleDetailService = peopleDetailService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
+        this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/registration")
@@ -55,6 +61,23 @@ public class AuthorizationController {
     }
 
 
+    @GetMapping("/login")
+    public Map<String, String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
+
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
+
+        try{
+            authenticationManager.authenticate(authToken);
+        }catch (BadCredentialsException exception){
+            return Map.of("message", "Incorrect Credentials");
+        }
+
+        String jwtToken = jwtUtil.generateToken(authenticationDTO.getUsername());
+
+        return Map.of("jwt-token", jwtToken);
+
+    }
 
 
 
