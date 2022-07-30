@@ -9,7 +9,7 @@
 
       <div  class="ml-auto text-1xl">
           <div class="text-lowercase">
-            <router-link class="no-underline hover:no-underline text-white hover:text-red-300" to="/">Main</router-link>
+            <router-link class="no-underline hover:no-underline text-white hover:text-red-300" to="/hello">Main</router-link>
             <router-link class="ml-5 no-underline hover:no-underline text-white hover:text-red-300" to="/chat">chat</router-link>
           </div>
       </div>

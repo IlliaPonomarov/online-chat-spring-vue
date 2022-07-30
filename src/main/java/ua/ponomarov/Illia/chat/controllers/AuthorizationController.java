@@ -61,9 +61,11 @@ public class AuthorizationController {
     }
 
 
-    @GetMapping("/login")
+    @PostMapping("/login")
+    @CrossOrigin(origins = "http://localhost:8081")
     public Map<String, String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
+        System.out.println("Login Controllers");
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
 

@@ -32,4 +32,8 @@ public class PersonService {
     public List<Person> findAll() {
         return peopleRepository.findAll();
     }
+
+    public Optional<Person> findById(int id) {
+        return peopleRepository.findById(id);
+    }
 }

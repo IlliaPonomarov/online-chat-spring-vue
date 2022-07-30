@@ -3,6 +3,6 @@ import {authModule} from "@/store/authModule"
 
 export default createStore({
     modules: {
-        user: authModule
+        auth: authModule
     },
 })

@@ -1,21 +1,17 @@
 
 import AuthService from "@/services/auth.service";
-import {error} from "@babel/eslint-parser/lib/convert";
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
-    ? {status : {loggedIn: true}, user}
-    : {status: {loggedIn: false}, user: null};
+    ? { status: { loggedIn: true }, user }
+    : { status: { loggedIn: false }, user: null };
 
 export const authModule = {
     namespaced: true,
-    state: function() {
-        return {
-            initialState
-        }
-    },
+    state: initialState,
 
     actions: {
         login({commit}, user){
+            console.log('auth')
             return AuthService.login(user).then(
                 user => {
                     commit('loginSuccess', user);

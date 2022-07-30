@@ -13,21 +13,36 @@
           </svg>
         </div>
         <h3 class="text-2xl font-bold text-center">Login to your account</h3>
-        <form action="">
+
+      <!-- LOGIN FORM-->
+        <form name="form" @submit.prevent="handleLogin" >
           <div class="mt-4">
             <div>
-              <label class="block" for="email">Email</label>
-                <input type="text" placeholder="Email"
+              <label class="block" for="username">Email</label>
+
+
+              <input
+                      id="username"
+                      type="text"
+                      v-model="user.username"
+                       placeholder="Username"
                        class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+
+
                 <span class="text-xs tracking-wide text-red-600">Email field is required </span>
             </div>
+
+
             <div class="mt-4">
               <label class="block">Password</label>
-                <input type="password" placeholder="Password"
-                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                <input
+                    v-model="user.password"
+                    type="password"
+                    placeholder="Password"
+                    class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
             </div>
             <div class="flex items-baseline justify-between">
-              <button class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
+              <button :disabled="loading" class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
               <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
             </div>
           </div>
@@ -38,9 +53,59 @@
 </template>
 
 <script>
-
+import User from '../model/user'
+import {mapActions} from 'vuex'
 export default {
   name: "LoginForm",
+
+  data(){
+    return {
+      user: new User('', ''),
+      loading: false,
+      message: ''
+    };
+  },
+
+
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
+
+
+  },
+    mounted(){
+      if (this.loggedIn)
+        this.$router.push('/hello')
+
+  },
+
+
+
+  methods: {
+
+    handleLogin() {
+      this.loading = true;
+      console.log(this.user.username + ' ' + this.user.password)
+      if (this.user.username && this.user.password){
+        this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              this.$router.push('/hello');
+            },
+            errors => {
+              this.loading = false;
+              this.message  = (errors.response && errors.response.data) || errors.message || errors.toString();
+            }
+        )
+      }
+    },
+
+    ...mapActions({
+      auth: "auth/login"
+    })
+  }
+
+
 
 }
 </script>
