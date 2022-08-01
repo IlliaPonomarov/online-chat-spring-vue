@@ -63,7 +63,7 @@
 
 <script>
 import User from '../model/user'
-import {mapActions, mapState} from 'vuex'
+import {mapActions} from 'vuex'
 export default {
   name: "LoginForm",
 
@@ -78,12 +78,8 @@ export default {
 
   computed: {
     loggedIn() {
-      return this.loggedIn;
+      return this.$store.state.auth.status.loggedIn;
     },
-
-    ...mapState({
-        loggedIn: state => state.auth.initialState.status.loggedIn
-             })
 
 
   },
@@ -104,6 +100,7 @@ export default {
         this.message = "Incorrect Username or Password!"
         this.loading = false;
       }
+
 
 
       if (this.user.username && this.user.password){

@@ -11,6 +11,7 @@ const routes = [
     {
         path: "/hello",
         component: Main,
+        name: "hello",
         children: [{
             path: '/chat',
             component: WebSocketGreetings,
@@ -37,10 +38,12 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if(to.path !== '/auth/login' && !store.state.auth.isAuthenticated) {
-        next({ path: '/auth/login' })
-    } else if ((to.path === '/login' || to.path === 'login') && store.state.auth.isAuthenticated) {
-        next({ path: '/hello' })
+    console.log(store.state.isAuthenticated);
+    if(to.path !== '/auth/login' && !store.state.isAuthenticated) {
+        next({ path: '/auth/login' });
+    } else if (to.path === '/auth/login' && store.state.isAuthenticated) {
+        console.log("test")
+        next({ name: "hello"});
     }else
         next()
 })

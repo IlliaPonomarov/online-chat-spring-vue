@@ -76,6 +76,7 @@ public class AuthorizationController {
     @CrossOrigin(origins = "http://localhost:8081/auth/login")
     public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
+        System.out.println(authenticationDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
 

@@ -5,15 +5,12 @@ const initialState = user
     ? { status: { loggedIn: true }, user }
     : { status: { loggedIn: false }, user: null };
 
+
+
 export const authModule = {
     namespaced: true,
-    state: function (){
-          return {
-              initialState,
-              isAuthenticated: false,
-          }
+    state:  initialState,
 
-    },
 
     actions: {
         login({commit}, user){
@@ -21,7 +18,7 @@ export const authModule = {
             return AuthService.login(user).then(
                 user => {
                     commit('loginSuccess', user);
-                    commit('setAuthenticate', true);
+                    commit('setAuthenticate', true,  {root: true});
                     return Promise.resolve(user);
                 },
                 error => {
@@ -34,7 +31,7 @@ export const authModule = {
 
         logout({commit}){
             AuthService.logout();
-            commit('setAuthenticate', false);
+            commit('setAuthenticate', false, {root: true});
             commit('logout');
         },
 
@@ -77,9 +74,7 @@ export const authModule = {
             state.status.loggedIn = false;
         },
 
-        setAuthenticate(state, status){
-            state.isAuthenticated = status;
-        }
+
 
 
 
