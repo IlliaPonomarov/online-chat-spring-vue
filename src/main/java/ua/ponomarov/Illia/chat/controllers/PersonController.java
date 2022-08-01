@@ -2,10 +2,13 @@ package ua.ponomarov.Illia.chat.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ponomarov.Illia.chat.model.Person;
 import ua.ponomarov.Illia.chat.services.PersonService;
-import ua.ponomarov.Illia.chat.utils.exceptions.PersonNotFoundException;
+import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonNotFoundException;
+import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonsNotExistException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +25,18 @@ public class PersonController {
     }
 
     @GetMapping("/all")
-    public List<Person> getAllUsers(){
+    public ResponseEntity<List<Person>> getAllUsers(){
 
+        List<Person> personList = personService.findAll();
 
+        if (personList.size() == 0)
+            throw new PersonsNotExistException("DataBase is empty");
 
-        return personService.findAll();
+        return new ResponseEntity<>(personList, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")
-    public Optional<Person> getPersonById(@PathVariable int id){
+    public ResponseEntity<Person> getPersonById(@PathVariable int id){
 
         Optional<Person> person = personService.findById(id);
 
@@ -38,7 +44,7 @@ public class PersonController {
             throw new PersonNotFoundException();
 
 
-        return personService.findById(id);
+        return new ResponseEntity<>(person.get(), HttpStatus.OK);
     }
 
 

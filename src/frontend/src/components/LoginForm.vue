@@ -17,10 +17,11 @@
       <!-- LOGIN FORM-->
         <form name="form" @submit.prevent="handleLogin" >
           <div class="mt-4">
+
+
+
             <div>
-              <label class="block" for="username">Email</label>
-
-
+              <label class="block" for="username">Username</label>
               <input
                       id="username"
                       type="text"
@@ -29,7 +30,7 @@
                        class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
 
 
-                <span class="text-xs tracking-wide text-red-600">Email field is required </span>
+
             </div>
 
 
@@ -41,10 +42,18 @@
                     placeholder="Password"
                     class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
             </div>
+
+            <div v-if="this.message.length > 0">
+              <span class="text-xs tracking-wide text-red-600"> {{ this.message }} </span>
+            </div>
+
+
             <div class="flex items-baseline justify-between">
               <button :disabled="loading" class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
               <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
             </div>
+
+
           </div>
         </form>
       </div>
@@ -86,7 +95,13 @@ export default {
 
     handleLogin() {
       this.loading = true;
-      console.log(this.user.username + ' ' + this.user.password)
+
+      if (this.user.username === undefined || this.user.password === undefined) {
+        this.message = "Incorrect Username or Password!";
+        this.loading = false;
+      }
+
+
       if (this.user.username && this.user.password){
         this.$store.dispatch('auth/login', this.user).then(
             () => {
@@ -98,6 +113,9 @@ export default {
             }
         )
       }
+
+
+
     },
 
     ...mapActions({

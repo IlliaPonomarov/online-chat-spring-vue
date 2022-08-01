@@ -7,18 +7,25 @@ const initialState = user
 
 export const authModule = {
     namespaced: true,
-    state: initialState,
+    state(){
+        return {
+            initialState,
+            isAuthenticated: false,
+        }
+    },
 
     actions: {
         login({commit}, user){
-            console.log('auth')
+
             return AuthService.login(user).then(
                 user => {
                     commit('loginSuccess', user);
+                    commit('setAuthenticate', true);
                     return Promise.resolve(user);
                 },
                 error => {
                     commit('loginFailure');
+                    console.log(error)
                     return Promise.reject(error);
                 }
             );
@@ -26,6 +33,7 @@ export const authModule = {
 
         logout({commit}){
             AuthService.logout();
+            commit('setAuthenticate', false);
             commit('logout');
         },
 
@@ -45,6 +53,7 @@ export const authModule = {
 
     mutations: {
         loginSuccess(state, user) {
+
             state.status.loggedIn = true;
             state.user = user;
         },
@@ -65,6 +74,13 @@ export const authModule = {
 
         registerFailure(state) {
             state.status.loggedIn = false;
+        },
+
+        setAuthenticate(state, status){
+            state.isAuthenticated = status;
         }
+
+
+
     }
 }

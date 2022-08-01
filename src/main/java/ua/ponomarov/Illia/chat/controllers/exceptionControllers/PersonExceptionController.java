@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ua.ponomarov.Illia.chat.utils.exceptions.ErrorResponse;
-import ua.ponomarov.Illia.chat.utils.exceptions.PersonNotFoundException;
+import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonNotFoundException;
 
 @ControllerAdvice
 public class PersonExceptionController {

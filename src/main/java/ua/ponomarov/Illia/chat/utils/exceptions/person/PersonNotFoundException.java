@@ -1,4 +1,4 @@
-package ua.ponomarov.Illia.chat.utils.exceptions;
+package ua.ponomarov.Illia.chat.utils.exceptions.person;
 
 import lombok.NoArgsConstructor;
 
