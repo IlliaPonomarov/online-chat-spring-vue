@@ -73,7 +73,7 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "http://localhost:8081/auth/login")
     public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         UsernamePasswordAuthenticationToken authToken =

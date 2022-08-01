@@ -9,7 +9,7 @@ import store from "@/store";
 const routes = [
 
     {
-        path: "/",
+        path: "/hello",
         component: Main,
         children: [{
             path: '/chat',
@@ -40,7 +40,7 @@ router.beforeEach((to, from, next) => {
     if(to.path !== '/auth/login' && !store.state.auth.isAuthenticated) {
         next({ path: '/auth/login' })
     } else if ((to.path === '/login' || to.path === 'login') && store.state.auth.isAuthenticated) {
-        next({ path: '/' })
+        next({ path: '/hello' })
     }else
         next()
 })

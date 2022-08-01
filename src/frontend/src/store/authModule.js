@@ -7,11 +7,12 @@ const initialState = user
 
 export const authModule = {
     namespaced: true,
-    state(){
-        return {
-            initialState,
-            isAuthenticated: false,
-        }
+    state: function (){
+          return {
+              initialState,
+              isAuthenticated: false,
+          }
+
     },
 
     actions: {
