@@ -47,10 +47,15 @@ public class AuthorizationController {
         Person person = convertToPerson(personDTO);
         personValidator.validate(person, bindingResult);
 
-        // finish writing exception handler
-        if (bindingResult.hasErrors())
-            return Map.of("message", "error");
 
+
+
+
+        // finish writing exception handler
+        if (bindingResult.hasErrors()) {
+
+            return Map.of("message", "error");
+        }
 
         registrationService.register(person);
 
