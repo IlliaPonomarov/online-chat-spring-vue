@@ -2,12 +2,14 @@ package ua.ponomarov.Illia.chat.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@ToString
 public class AuthenticationDTO {
 
     @NotEmpty(message = "Username should not be empty")

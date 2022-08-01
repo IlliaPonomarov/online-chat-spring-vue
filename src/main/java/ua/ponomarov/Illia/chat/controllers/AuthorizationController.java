@@ -69,6 +69,7 @@ public class AuthorizationController {
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
 
+
         try{
             authenticationManager.authenticate(authToken);
         }catch (BadCredentialsException exception){
