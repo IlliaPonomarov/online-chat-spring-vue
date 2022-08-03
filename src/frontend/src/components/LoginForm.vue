@@ -54,7 +54,7 @@
 
             </div>
             <div class="ml-5">
-                <router-link to="/auth/singup">Sing up</router-link>
+                <router-link class="text-sm text-blue-600 hover:underline" to="/auth/singup">Sing up</router-link>
             </div>
 
 
