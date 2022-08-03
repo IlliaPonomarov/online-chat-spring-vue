@@ -4,8 +4,12 @@ module.exports = {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  configureWebpack: {
+    devtool: 'source-map'
+  },
   theme: {
     extend: {},
+
     fontFamily: {
       'sans': ['ui-sans-serif', 'system-ui'],
       'serif': ['ui-serif', 'Georgia'],

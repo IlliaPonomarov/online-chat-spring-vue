@@ -1,20 +1,31 @@
 <template>
-  <Navbar></Navbar>
-  <div id="app">
-    <div class="container">
+
+  <div id="app" >
+    <div >
       <router-view></router-view>
     </div>
   </div>
 
-  <MyFooter></MyFooter>
 </template>
 
 
 <script>
-import Navbar from "@/components/Navbar";
-import MyFooter from "@/components/MyFooter";
+
 export default {
-  components: {Navbar, MyFooter}
+
+
+  data: function (){
+    return{
+      currentPath: this.$router.name,
+    }
+  },
+
+  computed: {
+    getCurrentPath(){
+      console.log("Current Path: " + this.currentPath);
+      return this.currentPath;
+    }
+  }
 }
 </script>
 

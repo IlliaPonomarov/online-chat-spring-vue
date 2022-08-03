@@ -8,8 +8,6 @@ import './assets/tailwind.css'
 import store from "@/store/index";
 
 window.jQuery = window.$ = $;
-require("bootstrap/dist/css/bootstrap.min.css");
-require("bootstrap/dist/js/bootstrap.min.js");
 
 const app = createApp(App);
 

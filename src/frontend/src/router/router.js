@@ -2,7 +2,7 @@ import Main from "@/pages/Main";
 import {createRouter, createWebHistory} from "vue-router/dist/vue-router";
 import WebSocketGreetings from "@/components/WebSocketGreetings";
 import Login from "@/pages/Login";
-import store from "@/store";
+import Registration from "@/pages/Registration";
 
 
 
@@ -28,6 +28,13 @@ const routes = [
         meta: {guest: true }
     },
 
+    {
+        path: '/auth/singup',
+        name: "singup",
+        component: Registration,
+        meta: {guest: true }
+    },
+
 
 ];
 
@@ -38,16 +45,20 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log(store.state.isAuthenticated);
-    if(to.path !== '/auth/login' && !store.state.isAuthenticated) {
-        next({ path: '/auth/login' });
-    } else if (to.path === '/auth/login' && store.state.isAuthenticated) {
-        console.log("test")
-        next({ name: "hello"});
-    }else
-        next()
-})
 
+
+    const publicPages = ['/auth/login', '/auth/singup'];
+    const authRequired = !publicPages.includes(to.path);
+    console.log(authRequired)
+    const loggedIn = localStorage.getItem('user');
+    // trying to access a restricted page + not logged in
+    // redirect to login page
+    if (authRequired && !loggedIn) {
+        next('/auth/login');
+    } else {
+        next();
+    }
+});
 
 
 

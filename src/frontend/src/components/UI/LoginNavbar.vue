@@ -1,0 +1,37 @@
+<template>
+  <div class="font-['Cambria']">
+
+    <header class="w-full h-full rounded-T-lg flex flex-row shadow-2xl  text-4xl bg-purple-800 text-white p-8 mb-10">
+      <div
+          class="text-left font-bold mb-3 brightness-125 italic hover:not-italic"
+          @click="$router.push('/hello')"><i class="fa fa-paper-plane"></i> wechat
+      </div>
+
+      <div  class="ml-auto text-1xl">
+        <div class="text-lowercase">
+          <a @click.prevent="logout" class="no-underline hover:no-underline text-white hover:text-red-300" to="/hello">Sing Out</a>
+        </div>
+      </div>
+
+    </header>
+
+  </div>
+</template>
+
+<script>
+export default {
+  name: "login-navbar",
+
+  methods: {
+    logout(){
+      this.$store.dispatch('/auth/logout')
+    }
+
+
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
