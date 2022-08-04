@@ -23,10 +23,12 @@ class AuthenticationService {
     }
 
     registration(user){
+        console.log(7777777)
         return axios.post(API_URL + "/registration", {
             username: user.username,
             yearOfBirth: user.yearOfBirth,
-            password: user.password
+            password: user.password,
+            email: user.email
         })
     }
 }

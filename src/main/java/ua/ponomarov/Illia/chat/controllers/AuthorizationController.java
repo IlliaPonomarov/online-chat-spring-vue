@@ -23,6 +23,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthorizationController {
 
 
@@ -46,6 +47,8 @@ public class AuthorizationController {
 
         Person person = personService.convertToPerson(personDTO);
         personValidator.validate(person, bindingResult);
+
+        System.out.println(person.toString());
 
 
         if (bindingResult.hasErrors()) {
@@ -73,7 +76,6 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:8081/auth/login")
     public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         System.out.println(authenticationDTO.toString());

@@ -27,6 +27,10 @@ public class PersonService {
         return peopleRepository.findByUsername(username);
     }
 
+    public Optional<Person> findByEmail(String email){
+        return peopleRepository.findByEmail(email);
+    }
+
      public Person findByPrincipal(Person person){
         return null;
      }

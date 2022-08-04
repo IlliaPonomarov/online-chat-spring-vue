@@ -25,12 +25,9 @@
               <input
                   id="username"
                   type="text"
-                  v-model="user.username"
+                  v-model="this.user.username"
                   placeholder="Username"
                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
-
-
-
             </div>
 
 
@@ -39,6 +36,7 @@
             <div class="mt-4">
             <label for="email" class="block">Email</label>
             <input
+                v-model="this.user.email"
                 id="email"
                 type="email"
                 placeholder="Email"
@@ -50,7 +48,7 @@
             <div class="mt-4">
               <label class="block">Year of Birth</label>
               <input
-
+                  v-model="this.user.yearOfBirth"
                   type="text"
                   placeholder="Year of Birth"
                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
@@ -59,7 +57,7 @@
             <div class="mt-4">
               <label class="block">Password</label>
               <input
-                  v-model="user.password"
+                  v-model="this.user.password"
                   type="password"
                   placeholder="Password"
                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
@@ -68,10 +66,15 @@
             <div class="mt-4">
               <label class="block">Repeat Password</label>
               <input
-                  v-model="user.password"
+                  v-model="this.repeatPassword"
                   type="password"
                   placeholder="Repeat Password"
                   class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+            </div>
+
+            <div v-if="this.user.password !== this.repeatPassword">
+              <span class="text-xs tracking-wide text-red-600"> Passwords should be equals </span>
+
             </div>
 
             <div v-if="this.message.length > 0">
@@ -100,13 +103,16 @@
 import User from '../model/user'
 import {mapActions, mapState} from 'vuex'
 export default {
-  name: "LoginForm",
+  name: "sing-up",
 
   data(){
     return {
-      user: new User('', ''),
+      user: new User('', '', '', ''),
       loading: false,
-      message: ''
+      repeatPassword: '',
+      message: '',
+      submitted: false,
+      successful: false,
     };
   },
 
@@ -123,10 +129,12 @@ export default {
 
   },
   mounted(){
-    if (this.loggedIn)
-      this.$router.push('/hello')
+    if (this.successful)
+      this.$router.push({path: '/auth/login'})
 
   },
+
+
 
 
 
@@ -137,11 +145,25 @@ export default {
     handleLogin() {
       this.loading = true;
 
+      this.$store.dispatch("auth/register", this.user).then(
+        data => {
+          console.log(this.user.toString())
+          this.message = data.message;
+          this.successful = true;
+          this.$router.push({path: '/auth/login'})
+        },
+
+          errors => {
+              this.message = (errors.response && errors.response.data) || errors.message || errors.toString();
+              this.successful = false;
+          }
+      );
 
     },
 
     ...mapActions({
-      auth: "auth/login"
+      auth: "auth/login",
+      auth2: "auth/register"
     })
   }
 

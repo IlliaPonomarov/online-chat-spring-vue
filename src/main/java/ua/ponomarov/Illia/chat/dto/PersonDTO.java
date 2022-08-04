@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -18,6 +19,10 @@ public class PersonDTO {
 
     @Min(value = 1900, message = "Year of birth should be large then 1990")
     private int yearOfBirth;
+
+    @Email
+    private String email;
+
 
     private String password;
 }
