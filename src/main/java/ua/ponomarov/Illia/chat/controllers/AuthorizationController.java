@@ -17,6 +17,7 @@ import ua.ponomarov.Illia.chat.services.PersonService;
 import ua.ponomarov.Illia.chat.services.RegistrationService;
 import ua.ponomarov.Illia.chat.utils.PersonValidator;
 import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonNotCreatedException;
+import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonsNotExistException;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -76,23 +77,40 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
+    public ResponseEntity<Person> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         System.out.println(authenticationDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
 
+        Optional<Person> currentPerson = personService.findByUsername(authenticationDTO.getUsername());
 
+
+
+        if (bindingResult.hasErrors() || currentPerson.isEmpty()){
+
+            StringBuilder messageErrors = new StringBuilder();
+            List<FieldError>  fieldsErrors = bindingResult.getFieldErrors();
+
+            for (FieldError fieldError : fieldsErrors)
+                messageErrors.append(fieldError.getField())
+                        .append(" - ")
+                        .append(fieldError.getDefaultMessage())
+                        .append(";");
+
+
+            throw new PersonsNotExistException(messageErrors.toString());
+        }
 
         try{
             authenticationManager.authenticate(authToken);
         }catch (BadCredentialsException exception){
-            return new ResponseEntity<>("Incorrect Username or Password", HttpStatus.NOT_ACCEPTABLE);
+            throw new BadCredentialsException("Incorrect Username or Password");
         }
 
         String jwtToken = jwtUtil.generateToken(authenticationDTO.getUsername());
 
-        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+        return new ResponseEntity<>(currentPerson.get(), HttpStatus.OK);
 
     }
 

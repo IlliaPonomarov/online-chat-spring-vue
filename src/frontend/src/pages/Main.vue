@@ -8,7 +8,7 @@
               <img src="https://mdbcdn.b-cdn.net/img/new/avatars/8.webp" class="rounded-full w-10" alt="Avatar">
             </div>
             <div class="grow ml-3">
-              <p class="text-sm font-semibold text-blue-600">Jason McCoel</p>
+              <p class="text-sm font-semibold text-blue-600">{{ currentUser.username }}</p>
             </div>
           </div>
         </a>
@@ -127,8 +127,18 @@
 </template>
 
 <script>
+import store from '../store/index'
+
 export default {
   name: 'main-page',
+
+  computed: {
+    currentUser(){
+      console.log(store.state.auth.user)
+      return this.$store.state.auth.user;
+    }
+  },
+
 
   methods: {
     logout(){
