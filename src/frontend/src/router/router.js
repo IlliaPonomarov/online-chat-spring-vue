@@ -11,12 +11,12 @@ const routes = [
         path: "/hello",
         component: Main,
         name: "hello",
-        children: [{
-            path: '/chat',
-            component: WebSocketGreetings,
-            auth: true
-        }
-        ]
+    },
+
+    {
+        path: '/chat',
+        component: WebSocketGreetings,
+        name: 'chat'
     },
 
 
@@ -52,6 +52,9 @@ router.beforeEach((to, from, next) => {
 
     if (authRequired && !loggedIn) {
         next('/auth/login');
+    }
+    else if (loggedIn){
+        next('/hello')
     }
     else {
         next();

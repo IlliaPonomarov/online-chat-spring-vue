@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ua.ponomarov.Illia.chat.security.PersonDetails;
 
 @Controller
+@CrossOrigin
 public class GreetingController {
 
     @MessageMapping("/hello")
