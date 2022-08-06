@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Getter
@@ -26,7 +27,7 @@ public class Message {
 
     @Column(name = "sendAt")
     @Temporal(TemporalType.TIMESTAMP)
-    private String timestamp;
+    private Date timestamp;
 
     @ManyToOne
     @JoinColumn(name = "chat_id")

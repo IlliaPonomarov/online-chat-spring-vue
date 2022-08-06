@@ -27,6 +27,7 @@ public class Chat {
     private String lastMessage;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "message_time")
     private Date messageTime;
 
     @Column(name = "message_count")
