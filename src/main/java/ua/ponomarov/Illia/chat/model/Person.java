@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
+import  java.util.*;
 @Entity
 @Table(name = "person")
 @NoArgsConstructor
@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 public class Person {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -38,6 +38,13 @@ public class Person {
 
     @Column(name = "role")
     private String role;
+
+    @ManyToMany
+    @JoinTable(name="chat_person",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "chat_id")
+    )
+    private List<Chat> chats = new ArrayList<>();
 
     @Min(value = 1900, message = "Year of birth should be large then 1990")
     @Column(name = "year_of_birth")
