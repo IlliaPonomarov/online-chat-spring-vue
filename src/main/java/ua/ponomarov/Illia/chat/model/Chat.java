@@ -44,10 +44,8 @@ public class Chat {
     private List<Message> messages = new ArrayList<>();
 
 
-    public Chat(String title, String lastMessage, Date messageTime, int messageCount) {
+    public Chat(String title, Message message) {
         this.title = title;
-        this.lastMessage = lastMessage;
-        this.messageTime = messageTime;
-        this.messageCount = messageCount;
+        this.messages.add(message);
     }
 }

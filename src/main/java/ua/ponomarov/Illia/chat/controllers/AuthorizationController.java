@@ -108,6 +108,8 @@ public class AuthorizationController {
             throw new BadCredentialsException("Incorrect Username or Password");
         }
 
+        String jwt = jwtUtil.generateToken(currentPerson.get().getUsername());
+        System.out.println(jwt);
 
         return new ResponseEntity<>(currentPerson.get(), HttpStatus.OK);
 
