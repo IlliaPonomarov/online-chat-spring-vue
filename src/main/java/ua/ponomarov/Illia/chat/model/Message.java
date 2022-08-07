@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
@@ -17,7 +18,12 @@ public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_id")
     private Long id;
+
+    @NotNull
+    @Column(name = "person_id")
+    private Integer person_id;
 
     @Column(name = "message")
     private String message;
@@ -25,9 +31,9 @@ public class Message {
     @Column(name = "sender")
     private String sender;
 
-    @Column(name = "sendAt")
+    @Column(name = "send_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
+    private Date sendAt;
 
     @ManyToOne
     @JoinColumn(name = "chat_id")
