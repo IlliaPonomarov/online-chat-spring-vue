@@ -17,8 +17,10 @@ export const authModule = {
 
             return AuthService.login(user).then(
                 user => {
+                    console.log("User: "+user.data)
                     commit('loginSuccess', user);
                     commit('setAuthenticate', true,  {root: true});
+                    commit('setToken', true,  {root: true});
                     return Promise.resolve(user);
                 },
                 error => {

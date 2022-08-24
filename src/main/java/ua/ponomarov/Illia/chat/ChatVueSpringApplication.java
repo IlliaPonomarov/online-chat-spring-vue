@@ -23,7 +23,7 @@ public class ChatVueSpringApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-              registry.addMapping("/auth/").allowedOrigins("http://localhost:8081")    ;
+              registry.addMapping("/").allowedOrigins("http://localhost:8082")    ;
             }
 
         };

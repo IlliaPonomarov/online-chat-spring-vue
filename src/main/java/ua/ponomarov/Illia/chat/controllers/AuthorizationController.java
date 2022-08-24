@@ -33,6 +33,7 @@ public class AuthorizationController {
     private final JWTUtil jwtUtil;
     private final RegistrationService registrationService;
     private final AuthenticationManager authenticationManager;
+    private String jwtToken = "";
 
     @Autowired
     public AuthorizationController(PersonService peopleDetailService, PersonValidator personValidator, JWTUtil jwtUtil, RegistrationService registrationService, AuthenticationManager authenticationManager) {
@@ -77,7 +78,7 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Person> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
+    public ResponseEntity<Map<String, Person>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         System.out.println(authenticationDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
@@ -110,10 +111,20 @@ public class AuthorizationController {
 
         String jwt = jwtUtil.generateToken(currentPerson.get().getUsername());
         System.out.println(jwt);
+        this.jwtToken = jwt;
 
-        return new ResponseEntity<>(currentPerson.get(), HttpStatus.OK);
+        return new ResponseEntity<>(Collections.singletonMap(jwt, currentPerson.get()), HttpStatus.OK);
 
     }
+
+    @GetMapping("/token")
+    public ResponseEntity<String> getToken(){
+
+        System.out.println(jwtToken);
+        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+    }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package ua.ponomarov.Illia.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "chat_id")
+    @JsonBackReference
     private Chat chat;
 
 

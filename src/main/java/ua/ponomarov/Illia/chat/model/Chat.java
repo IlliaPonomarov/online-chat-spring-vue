@@ -1,6 +1,7 @@
 package ua.ponomarov.Illia.chat.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,9 +39,11 @@ public class Chat {
             joinColumns = @JoinColumn(name = "chat_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id")
     )
+    @JsonManagedReference
     private List<Person> personList = new ArrayList<>();
 
     @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Message> messages = new ArrayList<>();
 
 

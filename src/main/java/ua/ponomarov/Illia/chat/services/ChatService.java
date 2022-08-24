@@ -13,9 +13,11 @@ import java.util.*;
 public class ChatService {
 
     private final ChatRepository chatRepository;
+    private final MessageService messageService;
 
     @Autowired
-    public ChatService(ChatRepository chatRepository) {
+    public ChatService(ChatRepository chatRepository, MessageService messageService) {
+        this.messageService = messageService;
         this.chatRepository = chatRepository;
     }
 
@@ -23,14 +25,25 @@ public class ChatService {
         return chatRepository.findAll();
     }
 
+    @Transactional // for the test
     public List<Message> findAllMessagesFromTheChatById(int id){
-        Chat chat = chatRepository.findById(1).get();
+        Chat chat = null;
+        if (chatRepository.findById(id).isPresent())
+           chat = chatRepository.findById(id).get();
+        chat.getMessages().forEach(p -> System.out.println(p.getMessage()));
 
         return chat.getMessages();
     }
 
     @Transactional
-    public Chat addChat(Chat chat){
+    public Chat save(Chat chat){
+
+        return chatRepository.save(chat);
+    }
+
+    @Transactional
+    public Chat update(Chat chat){
+        // check if this object already exist
 
         return chatRepository.save(chat);
     }
@@ -58,7 +71,7 @@ public class ChatService {
         chat.setMessageTime(message.getSendAt());
         chat.setMessageCount(chat.getMessages().size() - 1);
         chat.setTitle("Chat1");
-        addChat(chat);
+        save(chat);
 
 
 

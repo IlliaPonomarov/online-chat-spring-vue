@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 public class ChatController {
 
-    private ChatService chatService;
+    private final ChatService chatService;
 
     @Autowired
     public ChatController(ChatService chatService) {

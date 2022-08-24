@@ -7,6 +7,7 @@ export default createStore({
         return {
             isAuthenticated: false,
             isRegistration: false,
+            token: ""
         }
     },
     modules: {
@@ -16,6 +17,9 @@ export default createStore({
 
     mutations: {
 
+        setToken(state, status){
+            state.token = status;
+        },
         setAuthenticate(state, status){
             state.isAuthenticated = status;
 

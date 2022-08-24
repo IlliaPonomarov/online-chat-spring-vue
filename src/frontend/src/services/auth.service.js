@@ -17,6 +17,12 @@ class AuthenticationService {
             });
     }
 
+   async token(){
+
+        const response = await  axios.get(API_URL+"/token");
+
+        return response.data;
+    }
 
     logout(){
         localStorage.removeItem('user');

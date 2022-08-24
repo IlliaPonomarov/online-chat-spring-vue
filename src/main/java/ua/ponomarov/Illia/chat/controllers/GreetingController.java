@@ -8,19 +8,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 import ua.ponomarov.Illia.chat.model.Greeting;
 import ua.ponomarov.Illia.chat.model.HelloMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ua.ponomarov.Illia.chat.security.PersonDetails;
 
-@Controller
+@RestController
 @CrossOrigin
 public class GreetingController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    @CrossOrigin(origins = "http://localhost:8081")
     public Greeting greeting(HelloMessage helloMessage) throws Exception{
         Thread.sleep(1000);
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(helloMessage.getName()));

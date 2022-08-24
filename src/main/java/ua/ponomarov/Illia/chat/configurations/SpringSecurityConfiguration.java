@@ -24,14 +24,16 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.jwtFilter = jwtFilter;
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+                .antMatchers("/auth/login", "/gs-chat/**","/auth/token", "/auth/registration", "/error", "/token").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
                 .formLogin().loginPage("/auth/login")
