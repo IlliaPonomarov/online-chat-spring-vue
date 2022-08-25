@@ -10,6 +10,7 @@ class AuthenticationService {
             password: user.password
         })
             .then(response => {
+
                 if (response.data.accessToken){
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
@@ -17,9 +18,9 @@ class AuthenticationService {
             });
     }
 
-   async token(){
+   token(){
 
-        const response = await  axios.get(API_URL+"/token");
+        const response = axios.get(API_URL+"/token");
 
         return response.data;
     }

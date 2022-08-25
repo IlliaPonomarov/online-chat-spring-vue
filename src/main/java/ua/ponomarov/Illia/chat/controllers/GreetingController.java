@@ -13,18 +13,16 @@ import org.springframework.web.util.HtmlUtils;
 import ua.ponomarov.Illia.chat.model.Greeting;
 import ua.ponomarov.Illia.chat.model.HelloMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
+import ua.ponomarov.Illia.chat.model.Person;
 import ua.ponomarov.Illia.chat.security.PersonDetails;
+
+import java.security.Principal;
 
 @RestController
 @CrossOrigin
 public class GreetingController {
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage helloMessage) throws Exception{
-        Thread.sleep(1000);
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(helloMessage.getName()));
-    }
+
 
     @GetMapping("/show")
     @ResponseBody

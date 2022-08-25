@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +80,7 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Person>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
+    public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         System.out.println(authenticationDTO.toString());
         UsernamePasswordAuthenticationToken authToken =
@@ -113,10 +115,16 @@ public class AuthorizationController {
         System.out.println(jwt);
         this.jwtToken = jwt;
 
-        return new ResponseEntity<>(Collections.singletonMap(jwt, currentPerson.get()), HttpStatus.OK);
+        return new ResponseEntity<>(jwt, HttpStatus.OK);
 
     }
 
+
+    @GetMapping("/check")
+    public String authUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities().toString();
+    }
     @GetMapping("/token")
     public ResponseEntity<String> getToken(){
 

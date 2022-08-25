@@ -135,12 +135,7 @@ export default {
   },
 
 
-
-
-
   methods: {
-
-
 
     handleLogin() {
       this.loading = true;

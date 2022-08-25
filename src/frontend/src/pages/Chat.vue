@@ -16,18 +16,18 @@
           </div>
         </div>
 
-        <ul class="overflow-auto h-[32rem]" >
-          <li>
+        <ul class="overflow-auto h-[32rem]">
+          <li  v-for="chat in this.chats" :key="chat.id">
             <a
                 class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out  cursor-pointer hover:bg-[#179CDE] focus:outline-none">
               <img class="object-cover w-10 h-10 rounded-full"
                    src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg" alt="username" />
-              <div class="w-full pb-2">
+              <div class="w-full pb-2" >
                 <div class="flex justify-between">
-                  <span class="block ml-2 font-semibold text-gray-600" style="color: white">Jhon Don</span>
+                  <span class="block ml-2 font-semibold text-gray-600" style="color: white"> {{ chat.title }} </span>
                   <span class="block ml-2 text-sm text-gray-600" style="color: #333333">25 minutes</span>
                 </div>
-                <span class="block ml-2 text-sm text-gray-600" style="color: #333333">bye</span>
+                <span class="block ml-2 text-sm text-gray-600" style="color: #333333">{{ chat.lastMessage }}</span>
               </div>
             </a>
 <!--            <a-->
@@ -66,23 +66,30 @@
             <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
               </span>
           </div>
+
+
+          <!--       YOUR MESSAGES        -->
+
           <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
             <ul class="space-y-2">
               <li class="flex justify-start">
                 <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                  <span class="block">Hi</span>
+                  <span class="block"> Test</span>
                 </div>
               </li>
-              <li class="flex justify-end">
-                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span class="block">Hiiii</span>
-                </div>
-              </li>
-              <li class="flex justify-end">
-                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                  <span class="block">how are you?</span>
-                </div>
-              </li>
+<!--              <li class="flex justify-end">-->
+<!--                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">-->
+<!--                  <span class="block">Hiiii</span>-->
+<!--                </div>-->
+<!--              </li>-->
+<!--              <li class="flex justify-end">-->
+<!--                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">-->
+<!--                  <span class="block">how are you?</span>-->
+<!--                </div>-->
+<!--              </li>-->
+
+              <!--       MESSAGE BY THE YOUR FRIEND            -->
+
               <li class="flex justify-start">
                 <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
                     <span class="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -108,9 +115,12 @@
               </svg>
             </button>
 
+            <!--        INPUT AND BUTTON FIELDS       -->
             <input type="text" placeholder="Message"
                    class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                   name="message" required />
+                   name="message" required
+                   v-model="send_message"
+            />
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
@@ -118,13 +128,15 @@
                       d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
               </svg>
             </button>
-            <button type="submit">
+            <button type="submit" @click="send">
               <svg class="w-5 h-5 text-gray-500 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg"
                    viewBox="0 0 20 20" fill="currentColor">
                 <path
                     d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
               </svg>
             </button>
+
+
           </div>
         </div>
       </div>
@@ -137,6 +149,8 @@
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import AuthService from "@/services/auth.service";
+import ChatService from "@/services/chat.service";
+
 
 export default {
   name: "MyChat",
@@ -144,8 +158,12 @@ export default {
   data() {
     return {
       received_messages: [],
+      your_messages: [],
+      chats: [],
+      friends_messages: [],
       send_message: null,
-      connected: false
+      connected: false,
+      test: null
     };
   },
   methods: {
@@ -159,12 +177,20 @@ export default {
     },
 
     send() {
+      this.test = "Authorization " + localStorage.getItem("X-Authorization");
+
+      if (this.send_message !== null)
+       this.your_messages.push(this.send_message)
+
+
       console.log("Send message:" + this.send_message);
-      if (this.stompClient && this.stompClient.connected) {
+      if (this.stompClient && this.stompClient.connected && this.send_message !== null) {
         const msg = { name: this.send_message };
         console.log(JSON.stringify(msg));
-        this.stompClient.send("/app/hello", JSON.stringify(msg), {});
+        this.stompClient.send("/app/chat", JSON.stringify(msg), {});
+
       }
+      this.send_message = null;
     },
     connect() {
 
@@ -173,16 +199,13 @@ export default {
       this.stompClient = Stomp.over(this.socket);
 
 
-      const token = AuthService.token();
-      console.log("Token: " + token)
-
       this.stompClient.connect(
           {"Authorization": "Bearer " + AuthService.token()},
           frame => {
+
+            console.log(frame)
             this.connected = true;
-            console.log(frame);
-            this.stompClient.subscribe("/topic/greetings", tick => {
-              console.log(tick);
+            this.stompClient.subscribe("/topic/chat", tick => {
               this.received_messages.push(JSON.parse(tick.body).content);
             });
           },
@@ -192,18 +215,33 @@ export default {
           }
       );
     },
+
     disconnect() {
       if (this.stompClient) {
         this.stompClient.disconnect();
       }
       this.connected = false;
     },
+
     tickleConnection() {
       this.connected ? this.disconnect() : this.connect();
     }
   },
+
   mounted() {
+    ChatService.getAllChats().then(response => {
+      console.log("RESPONSE DATA:  " + response.data)
+      this.chats = response.data
+    }).catch(
+        error => alert(error)
+    );
+
+
     this.connect();
+
+
+
+
   },
 }
 </script>

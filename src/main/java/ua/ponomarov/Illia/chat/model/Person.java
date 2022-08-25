@@ -1,5 +1,7 @@
 package ua.ponomarov.Illia.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,6 +46,7 @@ public class Person {
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "chat_id")
     )
+    @JsonBackReference
     private List<Chat> chats = new ArrayList<>();
 
     @Min(value = 1900, message = "Year of birth should be large then 1990")
