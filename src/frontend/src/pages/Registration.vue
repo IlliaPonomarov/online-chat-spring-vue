@@ -34,14 +34,14 @@
 
             <!-- written v-model for email-->
             <div class="mt-4">
-            <label for="email" class="block">Email</label>
-            <input
-                v-model="this.user.email"
-                id="email"
-                type="email"
-                placeholder="Email"
-                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
-          </div>
+              <label for="email" class="block">Email</label>
+              <input
+                  v-model="this.user.email"
+                  id="email"
+                  type="email"
+                  placeholder="Email"
+                  class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+            </div>
 
             <!-- written v-model for YEAR OF BIRTH-->
 
@@ -141,16 +141,16 @@ export default {
       this.loading = true;
 
       this.$store.dispatch("auth/register", this.user).then(
-        data => {
-          console.log(this.user.toString())
-          this.message = data.message;
-          this.successful = true;
-          this.$router.push({path: '/auth/login'})
-        },
+          data => {
+            console.log(this.user.toString())
+            this.message = data.message;
+            this.successful = true;
+            this.$router.push({path: '/auth/login'})
+          },
 
           errors => {
-              this.message = (errors.response && errors.response.data) || errors.message || errors.toString();
-              this.successful = false;
+            this.message = (errors.response && errors.response.data) || errors.message || errors.toString();
+            this.successful = false;
           }
       );
 

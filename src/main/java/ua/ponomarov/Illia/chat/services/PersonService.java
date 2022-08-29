@@ -47,9 +47,9 @@ public class PersonService {
         return peopleRepository.findByEmail(email);
     }
 
-     public Person findByPrincipal(Person person){
+    public Person findByPrincipal(Person person){
         return null;
-     }
+    }
 
     public Person convertToPerson(PersonDTO personDTO){
         return modelMapper.map(personDTO, Person.class);

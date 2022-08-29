@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import ua.ponomarov.Illia.chat.services.RegistrationService;
 import ua.ponomarov.Illia.chat.utils.PersonValidator;
 import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonNotCreatedException;
 import ua.ponomarov.Illia.chat.utils.exceptions.person.PersonsNotExistException;
+import ua.ponomarov.Illia.chat.utils.responses.AuthenticationResponse;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -80,13 +82,14 @@ public class AuthorizationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult) {
 
         System.out.println(authenticationDTO.toString());
-        UsernamePasswordAuthenticationToken authToken =
+        Authentication authToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(), authenticationDTO.getPassword());
 
         Optional<Person> currentPerson = personService.findByUsername(authenticationDTO.getUsername());
+
 
 
 
@@ -106,7 +109,9 @@ public class AuthorizationController {
         }
 
         try{
-            authenticationManager.authenticate(authToken);
+           authenticationManager.authenticate(authToken);
+           SecurityContextHolder.getContext().setAuthentication(authToken);
+
         }catch (BadCredentialsException exception){
             throw new BadCredentialsException("Incorrect Username or Password");
         }
@@ -115,7 +120,9 @@ public class AuthorizationController {
         System.out.println(jwt);
         this.jwtToken = jwt;
 
-        return new ResponseEntity<>(jwt, HttpStatus.OK);
+
+
+        return new ResponseEntity<>(new AuthenticationResponse(currentPerson.get().getUsername(), currentPerson.get().getPassword(), jwtToken), HttpStatus.OK);
 
     }
 

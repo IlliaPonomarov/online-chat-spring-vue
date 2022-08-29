@@ -7,7 +7,6 @@ import $ from "jquery";
 import './assets/tailwind.css'
 import store from "@/store/index";
 
-window.jQuery = window.$ = $;
 
 const app = createApp(App);
 

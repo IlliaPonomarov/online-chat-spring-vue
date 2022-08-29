@@ -8,9 +8,9 @@
       </div>
 
       <div  class="ml-auto text-1xl">
-          <div class="text-lowercase">
-            <router-link class="no-underline hover:no-underline text-white hover:text-red-300" to="/hello">logout</router-link>
-          </div>
+        <div class="text-lowercase">
+          <router-link class="no-underline hover:no-underline text-white hover:text-red-300" to="/hello">logout</router-link>
+        </div>
       </div>
 
     </header>
@@ -25,5 +25,4 @@ export default {
 </script>
 
 <style scoped>
-
-</style>chat
+</style>

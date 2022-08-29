@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div>
     <div id="main-content" class="container">
       <div class="row">

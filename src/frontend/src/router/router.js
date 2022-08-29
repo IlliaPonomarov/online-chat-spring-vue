@@ -3,13 +3,14 @@ import {createRouter, createWebHistory} from "vue-router/dist/vue-router";
 import WebSocketGreetings from "@/components/WebSocketGreetings";
 import Login from "@/pages/Login";
 import Registration from "@/pages/Registration";
+import Chat from "@/pages/Chat";
 
 
 const routes = [
 
     {
         path: "/hello",
-        component: Main,
+        component: Chat,
         name: "hello",
     },
 
@@ -46,14 +47,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 
 
-    const publicPages = ['/auth/login', '/auth/singup', '/hello'];
+    const publicPages = ['/auth/login', '/auth/singup'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
-    if (authRequired && !loggedIn) {
+
+    console.log(loggedIn)
+
+
+    if ( (authRequired && !loggedIn) || to.path === '/') {
         next('/auth/login');
     }
-    else if (loggedIn){
+    else if (loggedIn && !authRequired){
         next('/hello')
     }
     else {

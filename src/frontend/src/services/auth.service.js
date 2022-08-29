@@ -11,14 +11,16 @@ class AuthenticationService {
         })
             .then(response => {
 
-                if (response.data.accessToken){
+                if (response.data.token){
+                    console.log("test token")
                     localStorage.setItem('user', JSON.stringify(response.data));
+                    localStorage.setItem('Authorization',`Bearer ${JSON.stringify(response.data.token)}`);
                 }
                 return response.data;
             });
     }
 
-   token(){
+   getToken(){
 
         const response = axios.get(API_URL+"/token");
 
@@ -27,10 +29,10 @@ class AuthenticationService {
 
     logout(){
         localStorage.removeItem('user');
+        localStorage.removeItem('Authorization');
     }
 
     registration(user){
-        console.log(7777777)
         return axios.post(API_URL + "/registration", {
             username: user.username,
             yearOfBirth: user.yearOfBirth,

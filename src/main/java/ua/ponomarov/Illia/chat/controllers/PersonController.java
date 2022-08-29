@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/people")
 public class PersonController {
 
     private final PersonService personService;
@@ -28,7 +28,7 @@ public class PersonController {
         this.chatService = chatService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Person>> getAllUsers(){
 
         List<Person> personList = personService.findAll();

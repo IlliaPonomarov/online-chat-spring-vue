@@ -10,6 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import ua.ponomarov.Illia.chat.security.JWTUtil;
 import ua.ponomarov.Illia.chat.services.PeopleDetailService;
 
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,11 @@ public class JWTFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")){
-            String jwt = authHeader.substring(7);
+            StringBuilder jwtBuffer = new StringBuilder(authHeader.substring(8));
+            jwtBuffer.deleteCharAt(jwtBuffer.length() - 1);
+
+            String jwt = new String(jwtBuffer);
+
 
             if (jwt.isBlank())
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -64,6 +69,8 @@ public class JWTFilter extends OncePerRequestFilter {
                 }
 
             }
+        }else {
+            System.out.println("Cannot find Header");
         }
 
         filterChain.doFilter(request, response);

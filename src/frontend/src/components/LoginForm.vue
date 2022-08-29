@@ -4,7 +4,7 @@
       <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg">
         <div class="flex justify-center">
 
-<!--          class="w-20 h-20 text-blue-600" fill="none" viewBox="0 0 24 24-->
+          <!--          class="w-20 h-20 text-blue-600" fill="none" viewBox="0 0 24 24-->
 
 
           <i class="fa fa-telegram w-30 h-20 text-blue-600" fill="none" viewBox="0 0 24 24"  style="font-size:68px;"></i>
@@ -14,7 +14,7 @@
         </div>
         <h3 class="text-2xl font-bold text-center">Login to your account</h3>
 
-      <!-- LOGIN FORM-->
+        <!-- LOGIN FORM-->
         <form name="form" @submit.prevent="handleLogin" >
           <div class="mt-4">
 
@@ -23,11 +23,11 @@
             <div>
               <label class="block" for="username">Username</label>
               <input
-                      id="username"
-                      type="text"
-                      v-model="user.username"
-                       placeholder="Username"
-                       class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+                  id="username"
+                  type="text"
+                  v-model="user.username"
+                  placeholder="Username"
+                  class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
 
 
 
@@ -36,11 +36,11 @@
 
             <div class="mt-4">
               <label class="block">Password</label>
-                <input
-                    v-model="user.password"
-                    type="password"
-                    placeholder="Password"
-                    class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
+              <input
+                  v-model="user.password"
+                  type="password"
+                  placeholder="Password"
+                  class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600">
             </div>
 
             <div v-if="this.message.length > 0">
@@ -49,12 +49,12 @@
 
 
             <div class="flex items-baseline justify-between">
-              <button :disabled="loading" class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
+              <button :disabled="loading"  class="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">Login</button>
               <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
 
             </div>
             <div class="ml-5">
-                <router-link class="text-sm text-blue-600 hover:underline" to="/auth/singup">Sing up</router-link>
+              <router-link class="text-sm text-blue-600 hover:underline" to="/auth/singup">Sing up</router-link>
             </div>
 
 
@@ -93,9 +93,9 @@ export default {
 
 
   },
-    mounted(){
-      if (this.loggedIn)
-        this.$router.push('/hello')
+  mounted(){
+    if (this.loggedIn)
+      this.$router.push('/hello')
 
   },
 
@@ -111,6 +111,7 @@ export default {
     handleLogin() {
       this.loading = true;
 
+
       if (this.user.username === undefined || this.user.password === undefined) {
         this.message = "Incorrect Username or Password!"
         this.loading = false;
@@ -119,8 +120,10 @@ export default {
 
 
       if (this.user.username && this.user.password){
+        console.log("test333")
         this.$store.dispatch('auth/login', this.user).then(
             () => {
+              localStorage.setItem("user", JSON.stringify(this.user));
               this.$router.push({ path: '/hello' })
               console.log(88888888888)
             },

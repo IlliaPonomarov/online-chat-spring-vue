@@ -2,12 +2,15 @@ package ua.ponomarov.Illia.chat.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.ponomarov.Illia.chat.model.Chat;
 import ua.ponomarov.Illia.chat.model.Message;
 import ua.ponomarov.Illia.chat.repository.ChatRepository;
+import ua.ponomarov.Illia.chat.services.MessageService;
 
-import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 public class ChatService {
@@ -29,7 +32,7 @@ public class ChatService {
     public List<Message> findAllMessagesFromTheChatById(int id){
         Chat chat = null;
         if (chatRepository.findById(id).isPresent())
-           chat = chatRepository.findById(id).get();
+            chat = chatRepository.findById(id).get();
         chat.getMessages().forEach(p -> System.out.println(p.getMessage()));
 
         return chat.getMessages();
