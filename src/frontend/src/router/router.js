@@ -1,4 +1,3 @@
-import Main from "@/pages/Main";
 import {createRouter, createWebHistory} from "vue-router/dist/vue-router";
 import WebSocketGreetings from "@/components/WebSocketGreetings";
 import Login from "@/pages/Login";
@@ -50,9 +49,6 @@ router.beforeEach((to, from, next) => {
     const publicPages = ['/auth/login', '/auth/singup'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
-
-
-    console.log(loggedIn)
 
 
     if ( (authRequired && !loggedIn) || to.path === '/') {

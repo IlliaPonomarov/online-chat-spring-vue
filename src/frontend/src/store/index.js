@@ -15,7 +15,17 @@ export default createStore({
 
     },
 
+    getters: {
+      getChats(){
+          return state.chats;
+      }
+    },
+
     mutations: {
+
+        setChats(state, status){
+            state.chats = status;
+        },
 
         setToken(state, status){
             state.token = status;

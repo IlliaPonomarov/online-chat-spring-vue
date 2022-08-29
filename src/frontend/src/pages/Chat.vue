@@ -1,59 +1,49 @@
 <template>
-  <div>
     <div class="container mx-auto">
       <div class="min-w-full border rounded lg:grid lg:grid-cols-3">
         <div class="border-r border-gray-300 lg:col-span-1" style="background-color: #0088cc">
           <div class="mx-3 my-3">
             <div class="relative text-gray-600">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                     viewBox="0 0 24 24" class="w-6 h-6 text-gray-300">
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </span>
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                       viewBox="0 0 24 24" class="w-6 h-6 text-gray-300">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </span>
               <input type="search" class="block w-full py-2 pl-10 bg-gray-100 rounded outline-none" name="search"
                      placeholder="Search" required />
             </div>
           </div>
 
-          <ul class="overflow-auto h-[32rem]" v-for="chat in chats" id="chat.id">
-            <li>
-              <a
-                  class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out  cursor-pointer hover:bg-[#179CDE] focus:outline-none">
-                <img class="object-cover w-10 h-10 rounded-full"
-                     src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg" alt="username" />
-                <div class="w-full pb-2" >
-                  <div class="flex justify-between">
-                    <span class="block ml-2 font-semibold text-gray-600" style="color: white"> {{ chat.id }} </span>
-                    <span class="block ml-2 text-sm text-gray-600" style="color: #333333">25 minutes</span>
-                  </div>
-                  <span class="block ml-2 text-sm text-gray-600" style="color: #333333">{{ chat.lastMessage() }}</span>
-                </div>
-              </a>
-              <!--            <a-->
-              <!--                class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none">-->
-              <!--              <img class="object-cover w-10 h-10 rounded-full"-->
-              <!--                   src="https://cdn.pixabay.com/photo/2016/06/15/15/25/loudspeaker-1459128__340.png" alt="username" />-->
-              <!--              <div class="w-full pb-2">-->
-              <!--                <div class="flex justify-between">-->
-              <!--                  <span class="block ml-2 font-semibold text-gray-600">Same</span>-->
-              <!--                  <span class="block ml-2 text-sm text-gray-600">50 minutes</span>-->
-              <!--                </div>-->
-              <!--                <span class="block ml-2 text-sm text-gray-600">Good night</span>-->
-              <!--              </div>-->
-              <!--            </a>-->
-              <!--            <a-->
-              <!--                class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">-->
-              <!--              <img class="object-cover w-10 h-10 rounded-full"-->
-              <!--                   src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg" alt="username" />-->
-              <!--              <div class="w-full pb-2">-->
-              <!--                <div class="flex justify-between">-->
-              <!--                  <span class="block ml-2 font-semibold text-gray-600">Emma</span>-->
-              <!--                  <span class="block ml-2 text-sm text-gray-600">6 hour</span>-->
-              <!--                </div>-->
-              <!--                <span class="block ml-2 text-sm text-gray-600">Good Morning</span>-->
-              <!--              </div>-->
-              <!--            </a>-->
+          <ul class="overflow-auto h-[32rem]">
+            <li  v-for="chat in chats" :key="chat.id" >
+              <div v-if="chats.title !== 'function String() { [native code] }' ">
+                  <a
+                      class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none">
+                    <img class="object-cover w-10 h-10 rounded-full"
+                         src="https://cdn.pixabay.com/photo/2018/09/12/12/14/man-3672010__340.jpg" alt="username" />
+                    <div class="w-full pb-2">
+                      <div class="flex justify-between">
+                        <span class="block ml-2 font-semibold text-white"> {{ chat.title }}</span>
+                        <span class="block ml-2 text-sm text-gray-600">{{  chat.messageTime }}</span>
+                      </div>
+                      <span class="block ml-2 text-sm text-gray-600">{{ chat.lastMessage }}</span>
+                    </div>
+                  </a>
+              </div>
+<!--              <a-->
+<!--                  class="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out bg-gray-100 border-b border-gray-300 cursor-pointer focus:outline-none">-->
+<!--                <img class="object-cover w-10 h-10 rounded-full"-->
+<!--                     src="https://cdn.pixabay.com/photo/2016/06/15/15/25/loudspeaker-1459128__340.png" alt="username" />-->
+<!--                <div class="w-full pb-2">-->
+<!--                  <div class="flex justify-between">-->
+<!--                    <span class="block ml-2 font-semibold text-gray-600">Same</span>-->
+<!--                    <span class="block ml-2 text-sm text-gray-600">50 minutes</span>-->
+<!--                  </div>-->
+<!--                  <span class="block ml-2 text-sm text-gray-600">Good night</span>-->
+<!--                </div>-->
+<!--              </a>-->
+
             </li>
           </ul>
         </div>
@@ -64,36 +54,29 @@
                    src="https://cdn.pixabay.com/photo/2018/01/15/07/51/woman-3083383__340.jpg" alt="username" />
               <span class="block ml-2 font-bold text-gray-600">Emma</span>
               <span class="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3">
-              </span>
+                </span>
             </div>
-
-
-            <!--       YOUR MESSAGES        -->
-
             <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
               <ul class="space-y-2">
                 <li class="flex justify-start">
                   <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                    <span class="block"> Test</span>
+                    <span class="block">Hi</span>
                   </div>
                 </li>
-                <!--              <li class="flex justify-end">-->
-                <!--                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">-->
-                <!--                  <span class="block">Hiiii</span>-->
-                <!--                </div>-->
-                <!--              </li>-->
-                <!--              <li class="flex justify-end">-->
-                <!--                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">-->
-                <!--                  <span class="block">how are you?</span>-->
-                <!--                </div>-->
-                <!--              </li>-->
-
-                <!--       MESSAGE BY THE YOUR FRIEND            -->
-
+                <li class="flex justify-end">
+                  <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                    <span class="block">Hiiii</span>
+                  </div>
+                </li>
+                <li class="flex justify-end">
+                  <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
+                    <span class="block">how are you?</span>
+                  </div>
+                </li>
                 <li class="flex justify-start">
                   <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                    <span class="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    </span>
+                      <span class="block">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      </span>
                   </div>
                 </li>
               </ul>
@@ -115,12 +98,9 @@
                 </svg>
               </button>
 
-              <!--        INPUT AND BUTTON FIELDS       -->
               <input type="text" placeholder="Message"
                      class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                     name="message" required
-                     v-model="send_message"
-              />
+                     name="message" required />
               <button>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
@@ -128,21 +108,19 @@
                         d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
               </button>
-              <button type="submit" @click="send">
+              <button type="submit" >
                 <svg class="w-5 h-5 text-gray-500 origin-center transform rotate-90" xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 20 20" fill="currentColor">
                   <path
                       d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                 </svg>
               </button>
-
-
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
-  </div>
+
 </template>
 
 <script>
@@ -152,7 +130,6 @@ import AuthService from "@/services/auth.service";
 import ChatService from "@/services/chat.service";
 import axios from "axios";
 
-
 export default {
   name: "MyChat",
 
@@ -160,17 +137,16 @@ export default {
     return {
       received_messages: Array,
       your_messages: Array,
-      chats: [
-        {
-          "id" : Number,
-          "title" : String,
-          "lastMessage" : String,
-          "messageTime" : String,
-          "messageCount" : Number,
-          "personList" : Array,
-          "messages" : Array
-        }
-      ],
+      selected_chat: String,
+      chats: [{
+        id: Number,
+        title: String,
+        messageTime: Date,
+        lastMessage: String,
+        messageCount: Number,
+        personList: Array,
+        messages: Array
+      }],
       friends_messages: Array,
       send_message: null,
       connected: false,
@@ -178,6 +154,8 @@ export default {
     };
   },
   methods: {
+
+
     logout(){
       this.$store.dispatch('auth/logout').then(
           () => {
@@ -193,8 +171,6 @@ export default {
       if (this.send_message !== null)
         this.your_messages.push(this.send_message)
 
-
-      console.log(87678)
       console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected && this.send_message !== null) {
         const msg = { name: this.send_message };
@@ -204,6 +180,7 @@ export default {
       }
       this.send_message = null;
     },
+
     connect() {
 
       this.socket = new SockJS("http://localhost:8022/gs-chat");
@@ -226,6 +203,34 @@ export default {
       );
     },
 
+    async getAllChats(){
+      await axios.get( "http://localhost:8022/api/chats/",
+          {headers: {Authorization: localStorage.getItem("Authorization")}}
+      ).then(response => {
+
+        for (let i = 0; i < response.data.length ; i++) {
+
+
+          let dataChat = {
+            id: response.data[i].id,
+            title: response.data[i].title,
+            messageTime: response.data[i].messageTime,
+            lastMessage: response.data[i].lastMessage,
+            messageCount: response.data[i].messageCount,
+            personList: response.data[i].personList,
+            messages: response.data[i].messages,
+          };
+
+          console.log(dataChat);
+
+          this.chats.push(dataChat)
+        }
+      }).catch(error => alert(error));
+
+      this.chats.splice(0, 1);
+
+    },
+
     disconnect() {
       if (this.stompClient) {
         this.stompClient.disconnect();
@@ -238,20 +243,15 @@ export default {
     }
   },
 
-  mounted() {
-    this.chats = ChatService.getAllChats();
-    this.connect();
+
+ async mounted() {
+   await this.getAllChats();
+   this.connect();
   },
 }
 </script>
 
 <style scoped>
 
-.test{
-  position:absolute;
-  top:0px;
-  right:0px;
-  bottom:0px;
-  left:0px;
-}
+
 </style>

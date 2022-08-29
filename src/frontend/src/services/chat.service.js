@@ -1,24 +1,30 @@
-import axios from "axios";
 const API_CHAT = "http://localhost:8022/api/chats";
-let user = JSON.parse(localStorage.getItem('user'));
+const axios = require('axios').default;
+
+
 class ChatService {
+    async getAllChats(){
 
-    getAllChats(){
+          let test = [];
+          axios.get(API_CHAT + "/",
+              {headers: {Authorization: localStorage.getItem("Authorization")}}
+          ).then(response => {
 
-      let promise = axios.get(API_CHAT + "/",
-          {headers: {Authorization: localStorage.getItem("Authorization")}}
-      ).then(response => {
-           return response.data}).catch(error => alert(error));
+              for (let i = 0; i < response.data.length ; i++) {
 
+                  let dataChat = {
+                      id: response.data[i].id,
+                      title: response.data[i].title,
+                      messageTime: response.data[i].messageTime,
+                      lastMessage: response.data[i].lastMessage,
+                      messageCount: response.data[i].messageCount,
+                      personList: response.data[i].personList,
+                      messages: response.data[i].messages,
+                  };
 
-      let test = new Array();
-
-      Promise.all([promise]).then(function (values){
-          for (let i = 0; i < values.length; i++) {
-              Array.prototype.push.apply(test, values[i]);
-          }
-      });
-
+                  test.push(dataChat)
+              }
+          }).catch(error => alert(error));
 
       return test;
 

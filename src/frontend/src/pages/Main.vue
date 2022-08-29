@@ -1,17 +1,29 @@
 <template>
   <div className="bg-white flex items-stretch bg-grey-lighter min-h-screen">
 
-    <my-chat></my-chat>
   </div>
 </template>
 
 <script>
 import store from '../store/index'
-import MyChat from "@/pages/Chat";
+import ChatService from "@/services/chat.service";
 
 export default {
   name: 'main-page',
-  components: {MyChat},
+  data() {
+    return{
+      chats: [{
+        id: Number,
+        title: String,
+        messageTime: String,
+        lastMessage: String,
+        messageCount: Number,
+        personList: Array,
+        messages: Array
+      }],
+    }
+  },
+
   computed: {
     currentUser() {
       console.log(store.state.auth.user)
@@ -27,7 +39,13 @@ export default {
       );
     }
 
+  },
+
+  mounted() {
+   // this.$store.commit('setChats', ChatService.getAllChats());
+   this.chats = ChatService.getAllChats();
   }
+
 }
 </script>
 
