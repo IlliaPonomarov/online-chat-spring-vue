@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
+import ua.ponomarov.Illia.chat.dto.MessageDTO;
 import ua.ponomarov.Illia.chat.model.*;
 import ua.ponomarov.Illia.chat.services.ChatService;
 import ua.ponomarov.Illia.chat.services.PersonService;
@@ -33,10 +34,11 @@ public class ChatController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
-    public Greeting currentChat(HelloMessage helloMessage) throws Exception{
+    public MessageDTO currentChat(MessageDTO message) throws Exception{
         Thread.sleep(1000);
 
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(helloMessage.getName()));
+        System.out.println(message.toString());
+        return new MessageDTO(message.getId(), message.getPerson_id(), message.getMessage(), message.getSender());
     }
 
     @GetMapping("/")

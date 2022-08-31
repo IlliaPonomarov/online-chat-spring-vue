@@ -26,7 +26,7 @@ public class Message {
     @Column(name = "person_id")
     private Integer person_id;
 
-    @Column(name = "message")
+    @Column(name = "message_text")
     private String message;
 
     @Column(name = "sender")
