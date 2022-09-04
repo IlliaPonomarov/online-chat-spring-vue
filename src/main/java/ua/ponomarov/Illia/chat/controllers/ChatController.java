@@ -46,10 +46,7 @@ public class ChatController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String nameOfAuthenticatedPerson = ((UserDetails) principal).getUsername();
 
-//
-        List<Chat> test = personService.getAllChatsOfPerson(nameOfAuthenticatedPerson);
-
-        return test;
+        return personService.getAllChatsOfPerson(nameOfAuthenticatedPerson);
     }
 
 

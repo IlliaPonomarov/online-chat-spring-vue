@@ -28,7 +28,14 @@
                         <span class="block ml-2 font-semibold text-white"> {{ chat.title }}</span>
                         <span class="block ml-2 text-sm text-gray-600">{{  chat.messageTime }}</span>
                       </div>
-                      <span class="block ml-2 text-sm text-gray-600">{{ chat.lastMessage }}</span>
+
+
+                      <div v-if="chat.messages.length !== 0">
+                         <span class="block ml-2 text-sm text-gray-600">{{   chat.lastMessage }}</span>
+                      </div>
+                      <div v-else>
+                        <span class="block ml-2 text-sm text-gray-600"> New Chat </span>
+                      </div>
                     </div>
                   </a>
               </div>
@@ -65,7 +72,7 @@
             <div class="relative w-full p-6 overflow-y-auto h-[40rem]">
               <ul class="space-y-2" v-for="messages in selected_chat.messages">
 
-                <!--     FRIEND MESSAGES           -->
+
 
 
                 <!--      YOUR MESSAGES        -->
@@ -75,7 +82,10 @@
                       <span class="block">{{ messages.message }}</span>
                     </div>
                   </li>
+                  <br/>
                 </div>
+
+                <!--     FRIEND MESSAGES           -->
                 <div v-else>
                   <li class="flex justify-start">
                     <div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
@@ -164,9 +174,18 @@ export default {
 
     selectChat(selected_chat){
       this.selected_chat = selected_chat;
-
-
     },
+
+    changeLastMessage(){
+      let index = this.chats.findIndex(object => {
+        return object.id === this.selected_chat.id;
+      });
+
+      if (index !== -1)
+        this.chats[index].lastMessage = this.selected_chat.messages[this.selected_chat.messages.length - 1].message;
+    },
+
+
     logout(){
       this.$store.dispatch('auth/logout').then(
           () => {
@@ -179,6 +198,8 @@ export default {
     send() {
 
       let person= this.selected_chat.messages.find(message => message.sender === this.auth_user['username']);
+     // this.changeLastMessage();
+      this.selected_chat.lastMessage = this.send_message;
 
       console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected && this.send_message !== null) {
@@ -218,6 +239,7 @@ export default {
     },
 
     async getAllChats(){
+
       await axios.get( "http://localhost:8022/api/chats/",
           {headers: {Authorization: localStorage.getItem("Authorization")}}
       ).then(response => {
@@ -239,7 +261,11 @@ export default {
 
           this.chats.push(dataChat)
         }
-      }).catch(error => alert(error));
+      }).catch(error => {
+        localStorage.removeItem("Authorization");
+        localStorage.removeItem("user");
+        console.log(error)
+      });
 
       this.chats.splice(0, 1);
 
@@ -260,6 +286,10 @@ export default {
 
  async mounted() {
    await this.getAllChats();
+
+   if (this.chats.length !== 0)
+     this.selected_chat = this.chats[0];
+
    this.connect();
   },
 }
